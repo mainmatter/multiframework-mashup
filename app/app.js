@@ -4,6 +4,7 @@ import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from 'multiframework-mashup/config/environment';
 import { importSync, isDevelopingApp, macroCondition } from '@embroider/macros';
+import '@warp-drive/ember/install';
 
 if (macroCondition(isDevelopingApp())) {
   importSync('./deprecation-workflow');
