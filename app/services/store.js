@@ -8,8 +8,31 @@ import {
 import { DefaultCachePolicy } from '@warp-drive/core/store';
 import { JSONAPICache } from '@warp-drive/json-api';
 
+import { serializeResources } from '@ember-data/json-api/request';
+const MUTATION_OPS = new Set(['createRecord', 'updateRecord']);
+
+const UpdateHandler = {
+  request(context, next) {
+    if (!MUTATION_OPS.has(context.request.op)) {
+      return next(context.request);
+    }
+
+    if (context.request.body) {
+      return next(context.request);
+    }
+
+    const { data, store } = context.request;
+    const newRequestParams = Object.assign({}, context.request, {
+      body: JSON.stringify(serializeResources(store.cache, data.record)),
+    });
+    return next(newRequestParams);
+  },
+};
+
 export default class AppStore extends Store {
-  requestManager = new RequestManager().use([Fetch]).useCache(CacheHandler);
+  requestManager = new RequestManager()
+    .use([UpdateHandler, Fetch])
+    .useCache(CacheHandler);
 
   lifetimes = new DefaultCachePolicy({
     apiCacheHardExpires: 15 * 60 * 1000, // 15 minutes

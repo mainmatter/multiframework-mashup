@@ -1,6 +1,6 @@
 import { Factory } from 'miragejs';
 
 export default Factory.extend({
-  firstName: 'Nick',
-  lastName: 'Schot',
+  firstName: 'Ember',
+  lastName: 'Mirage',
 });

@@ -1,8 +1,7 @@
 import { service } from '@ember/service';
 import { isDevelopingApp, macroCondition } from '@embroider/macros';
 import Route from '@ember/routing/route';
-import { findRecord } from '@warp-drive/utilities/json-api';
-import { registerDerivations, withDefaults } from '@warp-drive/schema-record';
+import { withDefaults } from '@warp-drive/schema-record';
 
 export default class ApplicationRoute extends Route {
   @service store;
@@ -21,7 +20,6 @@ export default class ApplicationRoute extends Route {
     }
 
     const schema = this.store.schema;
-    registerDerivations(schema);
     schema.registerResource(
       withDefaults({
         type: 'users',
@@ -39,8 +37,9 @@ export default class ApplicationRoute extends Route {
         ],
       })
     );
+  }
 
-    let usersResponse = await this.store.request(findRecord('user', '1'));
-    console.log(usersResponse.content.data);
+  model() {
+    return true;
   }
 }
