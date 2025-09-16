@@ -173,6 +173,9 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.1.1(react@19.1.1)
+      signal-polyfill:
+        specifier: ^0.2.2
+        version: 0.2.2
       stylelint:
         specifier: ^16.23.1
         version: 16.24.0(typescript@5.9.2)

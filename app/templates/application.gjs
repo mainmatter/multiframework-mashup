@@ -15,6 +15,7 @@ import { on } from '@ember/modifier';
 
 export default class ApplicationRouteComponent extends Component {
   @service store;
+  @service counter;
 
   @tracked firstName = 'Nick';
   @tracked lastName = 'Schot';
@@ -38,17 +39,28 @@ export default class ApplicationRouteComponent extends Component {
           @firstName={{this.firstName}}
           @lastName={{this.lastName}}
         />
+
+        <hr />
+
         <ReactBridge
           @component={{HelloReactComponent}}
           @props={{hash
             firstName=this.firstName
             lastName=this.lastName
             store=this.store
+            counter=this.counter
           }}
         />
+
+        <hr />
+
         <SvelteBridge
           @component={{HelloSvelteComponent}}
-          @props={{hash firstName=this.firstName lastName=this.lastName}}
+          @props={{hash
+            firstName=this.firstName
+            lastName=this.lastName
+            counter=this.counter
+          }}
         />
       </div>
     {{/if}}

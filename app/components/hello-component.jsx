@@ -1,39 +1,41 @@
-//import '@warp-drive/react/install';
-import { ReactiveContext, Request, StoreProvider } from '@warp-drive/react';
+import { Request, StoreProvider } from '@warp-drive/react';
 import { findRecord } from '@warp-drive/utilities/json-api';
+import { useSyncExternalStore } from 'react';
 
-export default function App({ store, firstName, lastName }) {
-  return (
-    <>
-      <StoreProvider store={store}>
-        <ReactiveContext>
-          <HelloComponent firstName={firstName} lastName={lastName} />
-        </ReactiveContext>
-      </StoreProvider>
-    </>
-  );
-}
-
-export function HelloComponent({ firstName, lastName }) {
+export default function HelloComponent({
+  store,
+  firstName,
+  lastName,
+  counter,
+}) {
   let fullName = firstName + ' ' + lastName;
+  let count = useSyncExternalStore(counter.subscribe, () => counter.count);
 
   return (
     <>
       [React] Hello {fullName}!<br />
-      <Request
-        query={findRecord('user', '1')}
-        states={{
-          loading: ({ state }) => (
-            <div>Loading user data... {console.log(state)}</div>
-          ),
-          content: ({ result }) => (
-            <span>
-              {console.log(result)}
-              Hello {result.data.firstName} {result.data.lastName}
-            </span>
-          ),
-        }}
-      />
+      <StoreProvider store={store}>
+        <Request
+          query={findRecord('user', '1')}
+          states={{
+            loading: () => <div>Loading user data...</div>,
+            content: ({ result }) => (
+              <div>
+                Hello from React {result.data.firstName} {result.data.lastName}
+              </div>
+            ),
+          }}
+        />
+      </StoreProvider>
+      <div>
+        <h3>React Counter</h3>
+        <p>
+          {count}
+          <button type="button" onClick={() => counter.increment()}>
+            +1
+          </button>
+        </p>
+      </div>
     </>
   );
 }

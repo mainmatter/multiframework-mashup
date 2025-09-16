@@ -86,6 +86,7 @@
     "qunit-dom": "^3.5.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "signal-polyfill": "^0.2.2",
     "stylelint": "^16.23.1",
     "stylelint-config-standard": "^38.0.0",
     "svelte": "^5.38.10",
