@@ -29,6 +29,13 @@ export default class HelloComponent extends Component {
   <template>
     [Ember] Hello
     {{this.fullName}}!
+
+    <h3>Ember Counter</h3>
+    <p>
+      {{this.counter.count}}
+      <button type="button" {{on "click" this.counter.increment}}>+1</button>
+    </p>
+
     <div>
       <Request @query={{findRecord "user" "1"}}>
         <:content as |result|>
