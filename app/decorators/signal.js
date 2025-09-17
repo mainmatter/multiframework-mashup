@@ -45,9 +45,5 @@ export function signal(target, property, descriptor) {
       dirtyTag(tag); // Ember
       notifySvelte?.(); // Svelte
     },
-
-    subscribe() {
-      console.log('subscribe!');
-    },
   };
 }
